@@ -84,7 +84,7 @@ void DrawScreen(void)
     MacUILib_clearScreen();    
 
     int i, j;
-    int y_max = 10, x_max = 20;
+    int y_max = gamemechs->getBoardSizeY(), x_max = gamemechs->getBoardSizeX();
 
     for (i = 0; i < y_max; i++) {
         for (j = 0; j < x_max; j++) {
