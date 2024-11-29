@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -10,6 +11,7 @@ using namespace std;
 
 GameMechs* gamemechs = nullptr;
 Player* player = nullptr;
+Food* food = nullptr;
 
 void Initialize(void);
 void GetInput(void);
@@ -45,6 +47,10 @@ void Initialize(void)
 
     gamemechs = new GameMechs();
     player = new Player(gamemechs);
+    food = new Food();
+
+    objPos playerPos =  player->getPlayerPos();
+    food->generateFood(playerPos);
 }
 
 void GetInput(void)
@@ -86,11 +92,17 @@ void DrawScreen(void)
     int i, j;
     int y_max = gamemechs->getBoardSizeY(), x_max = gamemechs->getBoardSizeX();
 
+    objPos foodPos = food->getFoodPos();
+
     for (i = 0; i < y_max; i++) {
         for (j = 0; j < x_max; j++) {
             if (i == 0 || i == y_max - 1 || j == 0 || j == x_max - 1) {
                 MacUILib_printf("+");
             } 
+            else if (i == foodPos.pos ->y && j == foodPos.pos->x)
+            {
+                MacUILib_printf("%c", foodPos.symbol);
+            }
             else {
                 MacUILib_printf(" "); 
             }
@@ -102,6 +114,7 @@ void DrawScreen(void)
     //debugging messages from iteration 1B (will delete/keep when needed)
     MacUILib_printf("\n\nSCORE: %d", gamemechs->getScore());
     MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
+
 }
 
 
