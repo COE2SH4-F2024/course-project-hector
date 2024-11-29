@@ -1,12 +1,15 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "GameMechs.h"
+#include "Player.h"
 
 using namespace std;
 
 #define DELAY_CONST 100000
 
-bool exitFlag;
+GameMechs* gamemechs = nullptr;
+Player* player = nullptr;
 
 void Initialize(void);
 void GetInput(void);
@@ -22,7 +25,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(!gamemechs->getExitFlagStatus())  //now uses gamemechs object to check the exit flag (very cool)  
     {
         GetInput();
         RunLogic();
@@ -40,17 +43,40 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    exitFlag = false;
+    gamemechs = new GameMechs();
+    player = new Player(gamemechs);
 }
 
 void GetInput(void)
 {
-   
+    if(MacUILib_hasChar()){
+        char input = MacUILib_getChar();
+        gamemechs->setInput(input);
+    }
 }
 
 void RunLogic(void)
 {
-    
+    char input = gamemechs->getInput();
+
+    if(input != 0){
+        switch(input){
+
+            case '.':
+            gamemechs->setExitTrue();
+            break;
+
+            case 'S':       //DEBUG KEY FOR ITERATION 1B, WILL REMOVE JUST TEST SCORE WITH IT
+            case 's':
+            gamemechs->incrementScore();
+            break;
+
+            default:
+            player->updatePlayerDir();      //only updates player movement as long as the exit key is not pressed 
+            break;                        
+
+        }
+    }
 }
 
 void DrawScreen(void)
@@ -72,6 +98,10 @@ void DrawScreen(void)
 
     MacUILib_printf("\n"); 
     }
+
+    //debugging messages from iteration 1B (will delete/keep when needed)
+    MacUILib_printf("\n\nSCORE: %d", gamemechs->getScore());
+    MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
 }
 
 
