@@ -76,18 +76,15 @@ void RunLogic(void)
             gamemechs->setExitTrue();
             break;
 
-            case 'S':       //DEBUG KEY FOR ITERATION 1B, WILL REMOVE JUST TEST SCORE WITH IT
-            case 's':
-            gamemechs->incrementScore();
-            break;
-
             default:
-            //player->movePlayer();
             player->updatePlayerDir();      //only updates player movement as long as the exit key is not pressed 
             break;                        
 
         }
+        
+         player->movePlayer();
     }
+    
 }
 
 void DrawScreen(void)

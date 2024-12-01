@@ -26,7 +26,7 @@ void objPosArrayList::insertHead(objPos thisPos)
         return;
     }
     else{
-        for(i = listSize; i > 0; i++){
+        for(i = listSize; i > 0; i--){
             aList[i] = aList[i - 1];
         }
         aList[0] = thisPos;
