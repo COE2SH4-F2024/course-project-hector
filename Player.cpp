@@ -6,23 +6,25 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
 
+    playerPosList = new objPosArrayList();
+
     // more actions to be included
     int startX = mainGameMechsRef-> getBoardSizeX()/2;      //initiliaze player pos at the centre
     int startY = mainGameMechsRef-> getBoardSizeY()/2;
 
-    playerPos.setObjPos(startX, startY, '*');  
+    playerPosList->insertHead(objPos(startX, startY, '*'));
+
 }
 
 
 Player::~Player()
 {
-    // delete any heap members here
+    delete  playerPosList;
 }
 
-objPos Player::getPlayerPos() const
+objPosArrayList* Player::getPlayerPos() const
 {
-    // return the reference to the playerPos arrray list
-    return playerPos;
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -78,33 +80,54 @@ void Player::movePlayer()
     // PPA3 Finite State Machine logic
 
     //get current coordinates of player
-    int x = playerPos.getObjPos().pos->x;
-    int y = playerPos.getObjPos().pos->y;
+    int x = playerPosList->getHeadElement().pos->x;      //head position of snake
+    int y = playerPosList->getHeadElement().pos->y;
 
-    //movement logic + includding wrap around logic
+    int xMax = mainGameMechsRef->getBoardSizeX();
+    int yMax = mainGameMechsRef->getBoardSizeY();
+
+
+    //movement logic + including wrap around logic
     switch(myDir){
 
         case UP:
-            y = (y - 1 + mainGameMechsRef->getBoardSizeY()) % mainGameMechsRef->getBoardSizeY();
+            y--;
+            if(y < 1){      //wrap around logic
+                y = yMax - 2;
+            }
             break;
         
         case DOWN:
-            y = (y + 1) % mainGameMechsRef->getBoardSizeY();
+            y++;
+            if(y > yMax - 2){
+                y = 1; 
+            }
             break;
 
         case LEFT:
-        x = (x - 1 + mainGameMechsRef->getBoardSizeX()) % mainGameMechsRef->getBoardSizeX();
-        break;
+            x--;
+            if(x < 1){
+                x = xMax - 2;
+            }
+            break;
 
         case RIGHT:
-        x = (x+1) % mainGameMechsRef->getBoardSizeX();
+            x++;
+            if(x > xMax - 2){
+                x = 1;
+            }
         break;
 
+        case STOP:
         default:
             break; //no movement happens (during STOP state)
     }
 
-    playerPos.setObjPos(x, y, '*');
+    //inserts the new head position
+    playerPosList->insertHead(objPos(x, y, '*'));
+
+    //deletes tail to simulate movement
+    playerPosList->removeTail();
     
 }
 

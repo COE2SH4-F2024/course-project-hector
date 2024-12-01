@@ -66,6 +66,7 @@ void objPos::setObjPos(int xPos, int yPos, char sym)
 objPos objPos::getObjPos() const
 {
     objPos returnPos;
+    
     returnPos.pos->x = pos->x;
     returnPos.pos->y = pos->y;
     returnPos.symbol = symbol;

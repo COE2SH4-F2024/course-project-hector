@@ -49,8 +49,12 @@ void Initialize(void)
     player = new Player(gamemechs);
     food = new Food();
 
-    objPos playerPos =  player->getPlayerPos();
-    food->generateFood(playerPos);
+    //access head position of snake
+    objPosArrayList* playerPosList = player->getPlayerPos();
+    objPos headPos = playerPosList->getHeadElement();
+
+    
+    food->generateFood(headPos);
 }
 
 void GetInput(void)
@@ -78,6 +82,7 @@ void RunLogic(void)
             break;
 
             default:
+            //player->movePlayer();
             player->updatePlayerDir();      //only updates player movement as long as the exit key is not pressed 
             break;                        
 
@@ -87,34 +92,50 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();    
+    MacUILib_clearScreen();
 
-    int i, j;
-    int y_max = gamemechs->getBoardSizeY(), x_max = gamemechs->getBoardSizeX();
+    //board dimensions
+    int rows = gamemechs->getBoardSizeY(); 
+    int columns = gamemechs->getBoardSizeX(); 
 
-    objPos foodPos = food->getFoodPos();
+    objPosArrayList* snake = player->getPlayerPos(); 
+    objPos foodPos = food->getFoodPos(); 
 
-    for (i = 0; i < y_max; i++) {
-        for (j = 0; j < x_max; j++) {
-            if (i == 0 || i == y_max - 1 || j == 0 || j == x_max - 1) {
-                MacUILib_printf("+");
-            } 
-            else if (i == foodPos.pos ->y && j == foodPos.pos->x)
-            {
-                MacUILib_printf("%c", foodPos.symbol);
+    
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            bool isSnake = false;
+            char toDraw = ' '; 
+
+            if (i == 0 || i == rows - 1 || j == 0 || j == columns - 1) {
+                toDraw = '+'; 
             }
+            
+            //draws snake body
             else {
-                MacUILib_printf(" "); 
-            }
-        }
+                for (int k = 0; k < snake->getSize(); k++) {
+                    objPos segment = snake->getElement(k);
+                    if (segment.pos->y == i && segment.pos->x == j) {
+                        isSnake = true;
+                        toDraw = segment.symbol;
+                        break;
+                    }
+                }
 
-    MacUILib_printf("\n"); 
+                //draw food (only if it's not occupied by snake segment)
+                if (!isSnake && foodPos.pos->y == i && foodPos.pos->x == j) {
+                    toDraw = foodPos.symbol; 
+                }
+            }
+
+            MacUILib_printf("%c", toDraw);
+        }
+        MacUILib_printf("\n");
     }
 
-    //debugging messages from iteration 1B (will delete/keep when needed)
+    //debugging messages, we can remove or keep when needed
     MacUILib_printf("\n\nSCORE: %d", gamemechs->getScore());
     MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
-
 }
 
 
