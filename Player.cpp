@@ -119,20 +119,29 @@ void Player::movePlayer()
                 mainGameMechsRef->incrementScore();
             }
             current.symbol = ' ';
+            playerPosList->insertHead(objPos(x, y, '*'));
             mainFoodRef->generateFood(playerPosList);
 
         }
         else if(current.symbol == '~')//SPECIAL 2)
         {
-            increasePlayerLength(x,y);
+            for(int m = 0; m<50; m++)
+            {
+                mainGameMechsRef->incrementScore();
+            }
+            playerPosList->insertHead(objPos(x, y, '*'));
+            playerPosList->insertTail(objPos(x, y, '*'));
+            //increasePlayerLength(x,y);
+            current.symbol = ' ';
+            mainFoodRef->generateFood(playerPosList);
         }
         else
         {
             playerPosList->insertHead(objPos(x, y, '*'));
-            playerPosList->insertTail(objPos(x, y, '*'));
+            //playerPosList->insertTail(objPos(x, y, '*'));
             mainFoodRef->generateFood(playerPosList);
             mainGameMechsRef->incrementScore();
-            increasePlayerLength(x,y);
+            //increasePlayerLength(x,y);
         }
     }
     else if(checkSelfCollision() == true)
