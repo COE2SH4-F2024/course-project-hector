@@ -112,6 +112,11 @@ void Player::movePlayer()
         foodRef->generateFood(playerPosList);
         mainGameMechsRef->incrementScore();
     }
+    else if(checkSelfCollision() == true)
+    {
+        mainGameMechsRef->setLoseFlag();
+        mainGameMechsRef->setExitTrue();
+    }
     else
     {
         //inserts the new head position
@@ -129,8 +134,7 @@ bool Player::checkFoodConsumption()
     int playerY = playerPosList->getHeadElement().pos->y;
     int foodX = foodRef->getFoodPos().pos->x;
     int foodY = foodRef->getFoodPos().pos->y;
-    //int xMax = mainGameMechsRef->getBoardSizeX();
-    //int yMax = mainGameMechsRef->getBoardSizeY();
+
     for(int i = 0; i < mainGameMechsRef->getBoardSizeX(); i++)
     {
         for(int j = 0; j < mainGameMechsRef->getBoardSizeY(); j++)
@@ -144,6 +148,23 @@ bool Player::checkFoodConsumption()
         
     }
     return consumed;
+}
+
+bool Player::checkSelfCollision()
+{
+    bool selfCollision = false;
+    int playerX = playerPosList->getHeadElement().pos->x;      //head position of snake
+    int playerY = playerPosList->getHeadElement().pos->y;
+
+    for(int i = 1; i < playerPosList->getSize(); i++)
+    {
+        objPos current = playerPosList->getElement(i);
+        if(playerX == current.pos->x && playerY == current.pos->y) // self collision has occured!
+        {
+            selfCollision = true;
+        }
+    }
+    return selfCollision;
 }
 /*
 void Player::increasePlayerLength() // what is this for??

@@ -134,7 +134,7 @@ void DrawScreen(void)
 
     //debugging messages, we can remove or keep when needed
     MacUILib_printf("\n\nSCORE: %d", gamemechs->getScore());
-    MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
+    //MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
     
 }
 
@@ -147,7 +147,12 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
+    MacUILib_clearScreen();
+    if(gamemechs->getLoseFlagStatus() == true)
+    {
+        MacUILib_printf("\n\n=====GAMEOVER!!=====\n#notoccannibalism\nFINAL SCORE: %d",gamemechs->getScore());
+    }
+
 
     MacUILib_uninit();
 }
