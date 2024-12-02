@@ -14,6 +14,7 @@ class objPosArrayList
 
     public:
         objPosArrayList();
+        objPosArrayList(int size);
         ~objPosArrayList();
 
         int getSize() const;
@@ -21,6 +22,7 @@ class objPosArrayList
         void insertTail(objPos thisPos);
         void removeHead();
         void removeTail();
+        //void setElement(int index, int xVal, int yVal, int symbol);
         
         objPos getHeadElement() const;
         objPos getTailElement() const;

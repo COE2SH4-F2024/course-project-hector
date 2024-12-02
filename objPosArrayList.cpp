@@ -7,6 +7,13 @@ objPosArrayList::objPosArrayList()
     arrayCapacity = ARRAY_MAX_CAP; 
 }
 
+objPosArrayList::objPosArrayList(int size)
+{
+    aList = new objPos[size];
+    listSize = 5;
+    arrayCapacity = 5; 
+}
+
 objPosArrayList::~objPosArrayList()
 {
     delete[] aList;
@@ -94,3 +101,5 @@ objPos objPosArrayList::getElement(int index) const
 
     return aList[index];
 }
+
+

@@ -5,15 +5,18 @@
 
 Food::Food()
 {
-    foodPos.pos->x = 0;
-    foodPos.pos->y = 0;
-    foodPos.symbol = 0;
+    foodBucket = new objPosArrayList(5);
 
 }
 
-Food::~Food()
+Food::~Food() 
 {
-    delete foodPos.pos;
+    for (int i = 0; i < foodBucket->getSize(); i++) 
+    {
+        objPos food = foodBucket->getElement(i);
+        delete food.pos; // Free position memory
+    }
+    delete foodBucket; // Free foodBucket
 }
 
 void Food::generateFood(objPosArrayList* blockOff)
@@ -24,9 +27,13 @@ void Food::generateFood(objPosArrayList* blockOff)
     int invalidChar = 1;
     char newSym;
     srand(time(NULL));
-    int size = blockOff->getSize();
-    for(int i = 0; i < size; i++)
+    int blockOffSize = blockOff->getSize();
+
+    //delete whats in foodbucket here
+
+    for(int i = 0; i<5; i++)
     {
+        //objPos currentBuck = foodBucket->getElement(i);
         while(notFound)
         { 
             // rand() % (max - min + 1) + min;          where [min, max]
@@ -34,18 +41,34 @@ void Food::generateFood(objPosArrayList* blockOff)
             newY = rand() % (14 - 2 + 1) + 2;
             newSym = rand() % (126 - 34 + 1) + 34;
 
-            objPos current = blockOff->getElement(i);
-            notFound = (newX == current.pos -> x || newY == current.pos -> y || newSym == 42);
-                
+            notFound = 0;
+            for(int j = 0; j < blockOffSize; j++)
+            {
+                objPos current = blockOff->getElement(j);
+                if (newX == current.pos -> x || newY == current.pos -> y || newSym == '*')
+                {
+                    notFound = 1;
+                    break;
+                }
+            }
             
         }
-        foodPos.pos->x = newX;
-        foodPos.pos->y = newY;
-        foodPos.symbol = '&';  //!!MAKE SURE TO CHANGE BACK
+        if(i==0)
+        {
+            foodBucket->insertHead(objPos(newX,newY,'!')); //special food
+        }
+        else if(i==1)
+        {
+            foodBucket->insertHead(objPos(newX,newY,'~')); // special Food
+        }
+        else
+        {
+            foodBucket->insertHead(objPos(newX,newY,newSym));
+        }
     }
 }
 
-objPos Food::getFoodPos() const
+objPosArrayList* Food::getFoodPos() const
 {
-    return foodPos;
+    return foodBucket;
 }

@@ -4,6 +4,7 @@
 #include "GameMechs.h"
 #include "Player.h"
 #include "Food.h"
+#include "time.h"
 
 using namespace std;
 
@@ -44,6 +45,7 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
+    //srand(time(NULL));
 
     gamemechs = new GameMechs();
     food = new Food();
@@ -52,6 +54,7 @@ void Initialize(void)
     //access head position of snake
     objPosArrayList* playerPosList = player->getPlayerPos();
     objPos headPos = playerPosList->getHeadElement();
+    
 
     
     food->generateFood(playerPosList);
@@ -96,8 +99,14 @@ void DrawScreen(void)
     int columns = gamemechs->getBoardSizeX(); 
 
     objPosArrayList* snake = player->getPlayerPos(); 
-    objPos foodPos = food->getFoodPos(); 
-
+    objPosArrayList* foodBucket = food->getFoodPos();
+    /* 
+    MacUILib_printf("\nFood bucket size: %d\n", foodBucket->getSize());
+for (int i = 0; i < foodBucket->getSize(); i++) {
+    objPos current = foodBucket->getElement(i);
+    MacUILib_printf("Food %d: x=%d, y=%d, symbol=%c\n", i, current.pos->x, current.pos->y, current.symbol);
+}
+*/
     
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
@@ -119,11 +128,18 @@ void DrawScreen(void)
                     }
                 }
 
-                
+                /*
                 //draw food (only if it's not occupied by snake segment)
-                if (!isSnake && foodPos.pos->y == i && foodPos.pos->x == j) {
-                    toDraw = foodPos.symbol; 
+                for(int v = 0; v<5; v++)
+                {
+                    objPos current = foodBucket->getElement(v);
+                    if (!isSnake && current.pos->y == i && current.pos->x == j) 
+                    {
+                        toDraw = current.symbol; 
+                        break;
+                    }
                 }
+                */
                 
             }
 
@@ -134,7 +150,8 @@ void DrawScreen(void)
 
     //debugging messages, we can remove or keep when needed
     MacUILib_printf("\n\nSCORE: %d", gamemechs->getScore());
-    //MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
+    MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
+    //MacUILib_printf("Current State: ")
     
 }
 

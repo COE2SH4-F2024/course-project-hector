@@ -13,13 +13,14 @@ class Food
 {
     private:
         objPos foodPos;
+        objPosArrayList* foodBucket;
 
     public:
         Food();
         ~Food();
 
         void generateFood(objPosArrayList* blockOff);
-        objPos getFoodPos() const;
+        objPosArrayList* getFoodPos() const;
 };
 
 #endif

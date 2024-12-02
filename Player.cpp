@@ -6,8 +6,8 @@
 Player::Player(GameMechs* thisGMRef, Food* thisFRef) //, Food* thisFRef
 {
     mainGameMechsRef = thisGMRef;
-    foodRef = thisFRef;
-    //foodRef = thisFRef;
+    mainFoodRef = thisFRef;
+    
     myDir = STOP;
     playerPosList = new objPosArrayList();
     // more actions to be included
@@ -109,7 +109,7 @@ void Player::movePlayer()
     if(checkFoodConsumption() == true) // if collision
     {
         playerPosList->insertHead(objPos(x, y, '*'));
-        foodRef->generateFood(playerPosList);
+        mainFoodRef->generateFood(playerPosList);
         mainGameMechsRef->incrementScore();
     }
     else if(checkSelfCollision() == true)
@@ -132,17 +132,23 @@ bool Player::checkFoodConsumption()
     bool consumed = false;
     int playerX = playerPosList->getHeadElement().pos->x;      //head position of snake
     int playerY = playerPosList->getHeadElement().pos->y;
-    int foodX = foodRef->getFoodPos().pos->x;
-    int foodY = foodRef->getFoodPos().pos->y;
+
 
     for(int i = 0; i < mainGameMechsRef->getBoardSizeX(); i++)
     {
         for(int j = 0; j < mainGameMechsRef->getBoardSizeY(); j++)
         {
-            if(playerX == foodX && playerY == foodY) // Collision happened!
+            for(int k = 0; k<5; k++)
             {
+                objPos currentFood = mainFoodRef->getFoodPos()->getElement(i);
+                int foodX = currentFood.pos->x;
+                int foodY = currentFood.pos->y;
+                
+                if(playerX == foodX && playerY == foodY) // Collision happened!
+                {
                 consumed = true;
                 break;
+                }
             }
         }
         

@@ -27,6 +27,6 @@ class Player
         enum Dir myDir;
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
-        Food* foodRef;
+        Food* mainFoodRef;
 };
 #endif
