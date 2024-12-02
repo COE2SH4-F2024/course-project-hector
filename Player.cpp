@@ -1,10 +1,8 @@
-
 #include "Player.h"
 #include "Food.h"
 #include "GameMechs.h"
-#include "MacUILib.h"       //DELETE LATER
 
-Player::Player(GameMechs* thisGMRef, Food* thisFRef) //, Food* thisFRef
+Player::Player(GameMechs* thisGMRef, Food* thisFRef) // accept GameMechs* and Food* 
 {
     mainGameMechsRef = thisGMRef;
     mainFoodRef = thisFRef;
@@ -14,7 +12,7 @@ Player::Player(GameMechs* thisGMRef, Food* thisFRef) //, Food* thisFRef
     // more actions to be included
     int startX = mainGameMechsRef-> getBoardSizeX()/2;      //initiliaze player pos at the centre
     int startY = mainGameMechsRef-> getBoardSizeY()/2;
-    playerPosList->insertHead(objPos(startX, startY, '*'));
+    playerPosList->insertHead(objPos(startX, startY, '*'));  // place player on board
     consumedFoodIndex = 0;
 }
 
@@ -111,17 +109,16 @@ void Player::movePlayer()
     if(checkFoodConsumption() == true) // if collision
     {
         objPos current = mainFoodRef->getFoodPos()->getElement(consumedFoodIndex);;
-        //MacUILib_printf("%c",current.symbol);
-        if(current.symbol == '!')//SPECIAL 1)
+        if(current.symbol == '!')   // Special Character #1
         {
-            for(int l = 0; l<10; l++)
+            for(int l = 0; l<10; l++)   // Special Effect #1 (increase score +10)
             {
                 mainGameMechsRef->incrementScore();
             }
             playerPosList->insertHead(objPos(x, y, '*'));
-            mainFoodRef->generateFood(playerPosList);
+            mainFoodRef->generateFood(playerPosList);   // Generate new food 
         }
-        else if(current.symbol == '~')//SPECIAL 2)
+        else if(current.symbol == '~')  // Special Character #2 
         {
             for(int m = 0; m<50; m++)   // Special Effect #2 (increase score +50)
             {
@@ -134,17 +131,17 @@ void Player::movePlayer()
                 objPos tailSegment = playerPosList->getTailElement(); // Get current tail position
                 playerPosList->insertTail(objPos(tailSegment.pos->x, tailSegment.pos->y, '*'));
             }
-            mainFoodRef->generateFood(playerPosList);
+            mainFoodRef->generateFood(playerPosList);   // Generate new food 
         }
         else
-        {
-            playerPosList->insertHead(objPos(x, y, '*'));
-            mainFoodRef->generateFood(playerPosList);
+        {   // Regular collision logic
+            playerPosList->insertHead(objPos(x, y, '*'));  // Inserts the new head position
+            mainFoodRef->generateFood(playerPosList);     
             mainGameMechsRef->incrementScore();
         }
     }
     else if(checkSelfCollision() == true)
-    {
+    {   // Gameover!
         mainGameMechsRef->setLoseFlag();
         mainGameMechsRef->setExitTrue();
     }
@@ -169,22 +166,20 @@ bool Player::checkFoodConsumption()
     {
         for(int j = 0; j < mainGameMechsRef->getBoardSizeY(); j++)
         {
-            for(int k = 0; k<5; k++)
+            for(int k = 0; k<5; k++)    // check all 5 food items on board
             {
                 objPos currentFood = mainFoodRef->getFoodPos()->getElement(k);
                 int foodX = currentFood.pos->x;
                 int foodY = currentFood.pos->y;
-                
+
                 if(playerX == foodX && playerY == foodY) // Collision happened!
                 {
-                    // send to function to get the character
                     consumed = true;
-                    consumedFoodIndex = k;
+                    consumedFoodIndex = k;  // Save index of the food item
                     break;
                 }
             }
         }
-        
     }
     return consumed;
 }
@@ -195,7 +190,7 @@ bool Player::checkSelfCollision()
     int playerX = playerPosList->getHeadElement().pos->x;      //head position of snake
     int playerY = playerPosList->getHeadElement().pos->y;
 
-    for(int i = 1; i < playerPosList->getSize(); i++)
+    for(int i = 1; i < playerPosList->getSize(); i++)   // iterate through each element of the snake's body
     {
         objPos current = playerPosList->getElement(i);
         if(playerX == current.pos->x && playerY == current.pos->y) // self collision has occured!
