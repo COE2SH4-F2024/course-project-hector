@@ -54,7 +54,7 @@ void Initialize(void)
     objPos headPos = playerPosList->getHeadElement();
 
     
-    food->generateFood(headPos);
+    food->generateFood(playerPosList);
 }
 
 void GetInput(void)

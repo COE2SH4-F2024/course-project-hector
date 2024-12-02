@@ -109,7 +109,8 @@ void Player::movePlayer()
     if(checkFoodConsumption() == true) // if collision
     {
         playerPosList->insertHead(objPos(x, y, '*'));
-        foodRef->generateFood(playerPosList->getHeadElement());
+        foodRef->generateFood(playerPosList);
+        mainGameMechsRef->incrementScore();
     }
     else
     {
