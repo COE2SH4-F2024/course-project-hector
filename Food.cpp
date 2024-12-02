@@ -26,26 +26,37 @@ void Food::generateFood(objPosArrayList* blockOff)
     int notFound = 1;
     int invalidChar = 1;
     char newSym;
-    srand(time(NULL));
+    
     int blockOffSize = blockOff->getSize();
 
-    //delete whats in foodbucket here
+    //deletes whats in foodbucket here
+    while (foodBucket->getSize() > 0)
+        {
+            foodBucket->removeTail();
+        }
 
     for(int i = 0; i<5; i++) // for loop of 5 to iterate through the 5 elements in foodBucket
-    {
+    {   
+        notFound = 1;
+
         //objPos currentBuck = foodBucket->getElement(i);
         while(notFound)
         { 
             // rand() % (max - min + 1) + min;          where [min, max]
             newX = rand() % (29 - 2 + 1) + 2;  //[TODO: implement mainGameMech->getboard]
             newY = rand() % (14 - 2 + 1) + 2;
-            newSym = rand() % (126 - 34 + 1) + 34;
+            
+            //generates new symbol excluding '*'
+            do{
+                newSym = rand() % (126 - 34 + 1) + 34;
+            }while(newSym == '*');
 
             notFound = 0;
+
             for(int j = 0; j < blockOffSize; j++)
             {
                 objPos current = blockOff->getElement(j);
-                if (newX == current.pos -> x || newY == current.pos -> y || newSym == '*')
+                if (newX == current.pos -> x && newY == current.pos -> y || newSym == '*')
                 {
                     notFound = 1;
                     break;
@@ -63,7 +74,7 @@ void Food::generateFood(objPosArrayList* blockOff)
         }
         else
         {
-            foodBucket->insertHead(objPos(newX,newY,'&')); //'&' used to debug rn or else should be newSym
+            foodBucket->insertHead(objPos(newX,newY, newSym)); //'&' used to debug rn or else should be newSym
         }
     }
 }

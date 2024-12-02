@@ -45,7 +45,7 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    //srand(time(NULL));
+    srand(time(NULL));
 
     gamemechs = new GameMechs();
     food = new Food();
