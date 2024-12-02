@@ -107,7 +107,7 @@ void Player::movePlayer()
             break; //no movement happens (during STOP state)
     }
 
-
+    
     if(checkFoodConsumption() == true) // if collision
     {
         objPos current = mainFoodRef->getFoodPos()->getElement(consumedFoodIndex);;
@@ -118,30 +118,29 @@ void Player::movePlayer()
             {
                 mainGameMechsRef->incrementScore();
             }
-            current.symbol = ' ';
             playerPosList->insertHead(objPos(x, y, '*'));
             mainFoodRef->generateFood(playerPosList);
-
         }
         else if(current.symbol == '~')//SPECIAL 2)
         {
-            for(int m = 0; m<50; m++)
+            for(int m = 0; m<50; m++)   // Special Effect #2 (increase score +50)
             {
                 mainGameMechsRef->incrementScore();
             }
             playerPosList->insertHead(objPos(x, y, '*'));
-            playerPosList->insertTail(objPos(x, y, '*'));
-            //increasePlayerLength(x,y);
-            current.symbol = ' ';
+            for(int i = 0; i < 10; i++)     // Special Effect #2 (increase snake +10)
+            {
+                // Add new segments to the tail, duplicating the last position
+                objPos tailSegment = playerPosList->getTailElement(); // Get current tail position
+                playerPosList->insertTail(objPos(tailSegment.pos->x, tailSegment.pos->y, '*'));
+            }
             mainFoodRef->generateFood(playerPosList);
         }
         else
         {
             playerPosList->insertHead(objPos(x, y, '*'));
-            //playerPosList->insertTail(objPos(x, y, '*'));
             mainFoodRef->generateFood(playerPosList);
             mainGameMechsRef->incrementScore();
-            //increasePlayerLength(x,y);
         }
     }
     else if(checkSelfCollision() == true)

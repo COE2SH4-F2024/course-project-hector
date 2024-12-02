@@ -48,7 +48,8 @@ void objPosArrayList::insertTail(objPos thisPos)
         return;
     }
     else{
-        aList[listSize + 1] = thisPos; 
+        aList[listSize] = thisPos; 
+        listSize++;
     }
 }
 
