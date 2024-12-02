@@ -99,7 +99,7 @@ void DrawScreen(void)
     int columns = gamemechs->getBoardSizeX(); 
 
     objPosArrayList* snake = player->getPlayerPos(); 
-    objPosArrayList* foodBucket = food->getFoodPos();
+    objPosArrayList* foodMain = food->getFoodPos();
     /* 
     MacUILib_printf("\nFood bucket size: %d\n", foodBucket->getSize());
 for (int i = 0; i < foodBucket->getSize(); i++) {
@@ -122,25 +122,23 @@ for (int i = 0; i < foodBucket->getSize(); i++) {
                 for (int k = 0; k < snake->getSize(); k++) {
                     objPos segment = snake->getElement(k);
                     if (segment.pos->y == i && segment.pos->x == j) {
-                        isSnake = true;
+                        //isSnake = true;
                         toDraw = segment.symbol;
                         break;
                     }
                 }
 
-                /*
+                
                 //draw food (only if it's not occupied by snake segment)
                 for(int v = 0; v<5; v++)
                 {
-                    objPos current = foodBucket->getElement(v);
-                    if (!isSnake && current.pos->y == i && current.pos->x == j) 
+                    objPos current = foodMain->getElement(v);
+                    if (current.pos->y == i && current.pos->x == j) // !isSnake &&
                     {
                         toDraw = current.symbol; 
                         break;
                     }
                 }
-                */
-                
             }
 
             MacUILib_printf("%c", toDraw);

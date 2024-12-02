@@ -31,7 +31,7 @@ void Food::generateFood(objPosArrayList* blockOff)
 
     //delete whats in foodbucket here
 
-    for(int i = 0; i<5; i++)
+    for(int i = 0; i<5; i++) // for loop of 5 to iterate through the 5 elements in foodBucket
     {
         //objPos currentBuck = foodBucket->getElement(i);
         while(notFound)
@@ -53,7 +53,7 @@ void Food::generateFood(objPosArrayList* blockOff)
             }
             
         }
-        if(i==0)
+        if(i==0) //first 2 shall be special
         {
             foodBucket->insertHead(objPos(newX,newY,'!')); //special food
         }
@@ -63,7 +63,7 @@ void Food::generateFood(objPosArrayList* blockOff)
         }
         else
         {
-            foodBucket->insertHead(objPos(newX,newY,newSym));
+            foodBucket->insertHead(objPos(newX,newY,'&')); //'&' used to debug rn or else should be newSym
         }
     }
 }

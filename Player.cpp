@@ -172,8 +172,8 @@ bool Player::checkSelfCollision()
     }
     return selfCollision;
 }
-/*
-void Player::increasePlayerLength() // what is this for??
+
+void Player::increasePlayerLength() // updates player length if obtained special food
 {
+
 }
-*/
