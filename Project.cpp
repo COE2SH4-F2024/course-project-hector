@@ -46,8 +46,8 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     gamemechs = new GameMechs();
-    player = new Player(gamemechs);
     food = new Food();
+    player = new Player(gamemechs,food);
 
     //access head position of snake
     objPosArrayList* playerPosList = player->getPlayerPos();
