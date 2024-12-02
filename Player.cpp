@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Food.h"
 #include "GameMechs.h"
+#include "MacUILib.h"       //DELETE LATER
 
 Player::Player(GameMechs* thisGMRef, Food* thisFRef) //, Food* thisFRef
 {
@@ -14,6 +15,7 @@ Player::Player(GameMechs* thisGMRef, Food* thisFRef) //, Food* thisFRef
     int startX = mainGameMechsRef-> getBoardSizeX()/2;      //initiliaze player pos at the centre
     int startY = mainGameMechsRef-> getBoardSizeY()/2;
     playerPosList->insertHead(objPos(startX, startY, '*'));
+    consumedFoodIndex = 0;
 }
 
 Player::~Player()
@@ -108,9 +110,30 @@ void Player::movePlayer()
 
     if(checkFoodConsumption() == true) // if collision
     {
-        playerPosList->insertHead(objPos(x, y, '*'));
-        mainFoodRef->generateFood(playerPosList);
-        mainGameMechsRef->incrementScore();
+        objPos current = mainFoodRef->getFoodPos()->getElement(consumedFoodIndex);;
+        //MacUILib_printf("%c",current.symbol);
+        if(current.symbol == '!')//SPECIAL 1)
+        {
+            for(int l = 0; l<10; l++)
+            {
+                mainGameMechsRef->incrementScore();
+            }
+            current.symbol = ' ';
+            mainFoodRef->generateFood(playerPosList);
+
+        }
+        else if(current.symbol == '~')//SPECIAL 2)
+        {
+            increasePlayerLength(x,y);
+        }
+        else
+        {
+            playerPosList->insertHead(objPos(x, y, '*'));
+            playerPosList->insertTail(objPos(x, y, '*'));
+            mainFoodRef->generateFood(playerPosList);
+            mainGameMechsRef->incrementScore();
+            increasePlayerLength(x,y);
+        }
     }
     else if(checkSelfCollision() == true)
     {
@@ -146,7 +169,9 @@ bool Player::checkFoodConsumption()
                 
                 if(playerX == foodX && playerY == foodY) // Collision happened!
                 {
+                    // send to function to get the character
                     consumed = true;
+                    consumedFoodIndex = k;
                     break;
                 }
             }
@@ -173,7 +198,10 @@ bool Player::checkSelfCollision()
     return selfCollision;
 }
 
-void Player::increasePlayerLength() // updates player length if obtained special food
+void Player::increasePlayerLength(int xPos, int yPos) // updates player length if obtained special food
 {
-
+    for(int i = 0; i<10; i++)
+    {
+        playerPosList->insertTail(objPos(xPos,yPos,'*'));
+    }
 }

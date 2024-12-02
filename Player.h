@@ -19,14 +19,16 @@ class Player
         void updatePlayerDir();
         void movePlayer();
         bool checkFoodConsumption();
-        void increasePlayerLength();
+        void increasePlayerLength(int xPos, int yPos);
         bool checkSelfCollision();
         // More methods to be added here
     private:
+
         objPosArrayList* playerPosList; // Upgrade this in iteration 3.       
         enum Dir myDir;
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
         Food* mainFoodRef;
+        int consumedFoodIndex;
 };
 #endif

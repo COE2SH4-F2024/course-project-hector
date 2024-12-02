@@ -89,6 +89,10 @@ objPos objPosArrayList::getTailElement() const
     return aList[listSize - 1];
 }
 
+//char objPosArrayList::getSymbol(int index)
+//{
+//    return aList[index].symbol;
+//}
 objPos objPosArrayList::getElement(int index) const
 {
     if(index >= arrayCapacity){
@@ -101,5 +105,7 @@ objPos objPosArrayList::getElement(int index) const
 
     return aList[index];
 }
+
+
 
 
