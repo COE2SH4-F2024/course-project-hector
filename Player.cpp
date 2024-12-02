@@ -140,14 +140,14 @@ bool Player::checkFoodConsumption()
         {
             for(int k = 0; k<5; k++)
             {
-                objPos currentFood = mainFoodRef->getFoodPos()->getElement(i);
+                objPos currentFood = mainFoodRef->getFoodPos()->getElement(k);
                 int foodX = currentFood.pos->x;
                 int foodY = currentFood.pos->y;
                 
                 if(playerX == foodX && playerY == foodY) // Collision happened!
                 {
-                consumed = true;
-                break;
+                    consumed = true;
+                    break;
                 }
             }
         }
