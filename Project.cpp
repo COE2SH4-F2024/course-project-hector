@@ -119,10 +119,12 @@ void DrawScreen(void)
                     }
                 }
 
+                
                 //draw food (only if it's not occupied by snake segment)
                 if (!isSnake && foodPos.pos->y == i && foodPos.pos->x == j) {
                     toDraw = foodPos.symbol; 
                 }
+                
             }
 
             MacUILib_printf("%c", toDraw);
@@ -133,6 +135,7 @@ void DrawScreen(void)
     //debugging messages, we can remove or keep when needed
     MacUILib_printf("\n\nSCORE: %d", gamemechs->getScore());
     MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
+    
 }
 
 

@@ -1,5 +1,7 @@
 #include "Food.h"
 #include "GameMechs.h"
+#include "time.h"
+
 
 Food::Food()
 {
@@ -18,18 +20,17 @@ void Food::generateFood(objPos blockOff)
 {
     int newX;
     int newY;
-    char newSym;
     int notFound = 1;
     int invalidChar = 1;
-    int newChar;
+    char newSym;
     srand(time(NULL));
 
     while(notFound)
     { 
         // rand() % (max - min + 1) + min;          where [min, max]
-        newX = rand() % (30 - 1 + 1) + 1;
-        newY = rand() % (15 - 1 + 1) + 1;
-        newSym = rand() % (126 - 33 + 1) + 33;
+        newX = rand() % (29 - 2 + 1) + 2;  //[TODO: implement mainGameMech->getboard]
+        newY = rand() % (14 - 2 + 1) + 2;
+        newSym = rand() % (126 - 34 + 1) + 34;
 
         notFound = (newX == blockOff.pos -> x || newY == blockOff.pos -> y || newSym == blockOff.symbol);
             
@@ -38,7 +39,6 @@ void Food::generateFood(objPos blockOff)
     foodPos.pos->x = newX;
     foodPos.pos->y = newY;
     foodPos.symbol = newSym;
-
 }
 
 objPos Food::getFoodPos() const
