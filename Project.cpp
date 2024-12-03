@@ -75,7 +75,7 @@ void RunLogic(void)
     if(input != 0){
         switch(input){
 
-            case '.':
+            case '-':
             gamemechs->setExitTrue();
             break;
 
@@ -147,7 +147,7 @@ for (int i = 0; i < foodBucket->getSize(); i++) {
         MacUILib_printf("\n");
     }
     //rules messages
-    MacUILib_printf("\n===================\n CONTROLS: WASD\n TO QUIT PRESS '.'\n===================");
+    MacUILib_printf("\n===================\n CONTROLS: WASD\n TO QUIT PRESS '-'\n===================");
     MacUILib_printf("\n\n===SPECIAL FOODS===\n! ---> +10 POINTS\n\n~ ---> +20 POINTS\n\t+3 LENGTH\n===================");
 
     //debugging messages
