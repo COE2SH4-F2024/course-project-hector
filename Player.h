@@ -28,7 +28,7 @@ class Player
         enum Dir myDir;
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
-        Food* mainFoodRef;
-        int consumedFoodIndex;
+        Food* mainFoodRef;      // Reference to the Main Food 
+        int consumedFoodIndex;  // Index of the Food item consumed
 };
 #endif

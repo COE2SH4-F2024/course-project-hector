@@ -44,23 +44,23 @@ char GameMechs::getInput() const
 
 int GameMechs::getScore() const
 {
-    return score;
+    return score;   // returns game score
 }
 
 void GameMechs::incrementScore()
 {
-    score++;
+    score++;      // increase score by +1
 
 }
 
 int GameMechs::getBoardSizeX() const
 {
-    return boardSizeX;
+    return boardSizeX;  // returns row
 }
 
 int GameMechs::getBoardSizeY() const
 {
-    return boardSizeY;
+    return boardSizeY;  // returns col
 }
 
 

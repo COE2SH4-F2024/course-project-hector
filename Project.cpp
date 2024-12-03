@@ -48,7 +48,7 @@ void Initialize(void)
     srand(time(NULL));
 
     gamemechs = new GameMechs();
-    food = new Food();
+    food = new Food(gamemechs);
     player = new Player(gamemechs,food);
 
     //access head position of snake
@@ -100,13 +100,7 @@ void DrawScreen(void)
 
     objPosArrayList* snake = player->getPlayerPos(); 
     objPosArrayList* foodMain = food->getFoodPos();
-    /* 
-    MacUILib_printf("\nFood bucket size: %d\n", foodBucket->getSize());
-for (int i = 0; i < foodBucket->getSize(); i++) {
-    objPos current = foodBucket->getElement(i);
-    MacUILib_printf("Food %d: x=%d, y=%d, symbol=%c\n", i, current.pos->x, current.pos->y, current.symbol);
-}
-*/
+
     MacUILib_printf("==============================\n==ULTIMATE HECTOR SNAKE GAME==\n==============================\n\n");
     
     for (int i = 0; i < rows; i++) {
@@ -114,7 +108,7 @@ for (int i = 0; i < foodBucket->getSize(); i++) {
             bool isSnake = false;
             char toDraw = ' '; 
 
-            if (i == 0 || i == rows - 1 || j == 0 || j == columns - 1) {
+            if (i == 0 || i == rows - 1 || j == 0 || j == columns - 1) {    // drawing border
                 toDraw = '+'; 
             }
             
@@ -123,25 +117,22 @@ for (int i = 0; i < foodBucket->getSize(); i++) {
                 for (int k = 0; k < snake->getSize(); k++) {
                     objPos segment = snake->getElement(k);
                     if (segment.pos->y == i && segment.pos->x == j) {
-                        //isSnake = true;
                         toDraw = segment.symbol;
                         break;
                     }
                 }
-
                 
                 //draw food (only if it's not occupied by snake segment)
                 for(int v = 0; v<5; v++)
                 {
                     objPos current = foodMain->getElement(v);
-                    if (current.pos->y == i && current.pos->x == j) // !isSnake &&
+                    if (current.pos->y == i && current.pos->x == j) 
                     {
                         toDraw = current.symbol; 
                         break;
                     }
                 }
             }
-
             MacUILib_printf("%c", toDraw);
         }
         MacUILib_printf("\n");
@@ -170,6 +161,9 @@ void CleanUp(void)
         MacUILib_printf("\n\n=====GAMEOVER!=====\n=====YOU LOST===== \n\n#notoccannibalism\nFINAL SCORE: %d",gamemechs->getScore());
     }
 
+    delete gamemechs;       // delete heap members
+    delete player;
+    delete food;
 
     MacUILib_uninit();
 }

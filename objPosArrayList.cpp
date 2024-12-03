@@ -44,37 +44,38 @@ void objPosArrayList::insertHead(objPos thisPos)
 
 void objPosArrayList::insertTail(objPos thisPos)
 {    
-    if(listSize >= arrayCapacity){
+    if(listSize >= arrayCapacity){  // list reached its capacity!
         return;
     }
-    else{
-        aList[listSize] = thisPos; 
-        listSize++;
+    else
+    {
+        aList[listSize] = thisPos;  // set to last element
+        listSize++;                 // increase size of list
     }
 }
 
 void objPosArrayList::removeHead()
 {
     int i;
-
-    if(listSize == 0){
+    if(listSize == 0){  // cannot remove from an empty list
         return;
     }
-    else{
+    else
+    {
         for(i = 0; i < listSize - 1; i++){
-            aList[i] = aList[i+1];
+            aList[i] = aList[i+1];  // shift the second element to the head position
         }
-        listSize--;
+        listSize--; // decrease size of list
     }
 }
 
 void objPosArrayList::removeTail()
 {
-    if(listSize == 0){
+    if(listSize == 0){      // cannot remove from an empty list
         return;
     }
     else{
-        listSize--;
+        listSize--;         // decrease size of list
     }
     
 }
@@ -90,21 +91,17 @@ objPos objPosArrayList::getTailElement() const
     return aList[listSize - 1];
 }
 
-//char objPosArrayList::getSymbol(int index)
-//{
-//    return aList[index].symbol;
-//}
 objPos objPosArrayList::getElement(int index) const
 {
-    if(index >= arrayCapacity){
-        return aList[arrayCapacity- 1];
+    if(index >= arrayCapacity){             // index surpasees the array capacity!
+        return aList[arrayCapacity- 1];     // return the last element of the array instead
     }
 
-    if(index < 0){
-        return aList[0];
+    if(index < 0){          // index is too small!
+        return aList[0];    // return first element instead
     }
 
-    return aList[index];
+    return aList[index];    // return the objPos element at parameterized index
 }
 
 

@@ -6,17 +6,19 @@
 
 #include "objPos.h"
 #include "objPosArrayList.h"
+#include "GameMechs.h"
 
 using namespace std;
 
 class Food
 {
     private:
+        GameMechs* mainGameMechsRef;    // Reference to the Main Game Mechanisms
         objPos foodPos;
         objPosArrayList* foodBucket;
-
+        
     public:
-        Food();
+        Food(GameMechs* thisGMRef);
         ~Food();
 
         void generateFood(objPosArrayList* blockOff);
