@@ -107,6 +107,7 @@ for (int i = 0; i < foodBucket->getSize(); i++) {
     MacUILib_printf("Food %d: x=%d, y=%d, symbol=%c\n", i, current.pos->x, current.pos->y, current.symbol);
 }
 */
+    MacUILib_printf("==============================\n==ULTIMATE HECTOR SNAKE GAME==\n==============================\n\n");
     
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
@@ -145,11 +146,12 @@ for (int i = 0; i < foodBucket->getSize(); i++) {
         }
         MacUILib_printf("\n");
     }
+    //rules messages
+    MacUILib_printf("\n===================\n CONTROLS: WASD\n TO QUIT PRESS '.'\n===================");
+    MacUILib_printf("\n\n===SPECIAL FOODS===\n! ---> +10 POINTS\n\n~ ---> +20 POINTS\n\t+3 LENGTH\n===================");
 
-    //debugging messages, we can remove or keep when needed
-    MacUILib_printf("\n\nSCORE: %d", gamemechs->getScore());
-    MacUILib_printf("\nLOSE FLAG: %d", gamemechs->getLoseFlagStatus());
-    //MacUILib_printf("Current State: ")
+    //debugging messages
+    MacUILib_printf("\n\nSCORE: %d\nLOSE FLAG: %d", gamemechs->getScore(), gamemechs->getLoseFlagStatus());
     
 }
 
@@ -165,7 +167,7 @@ void CleanUp(void)
     MacUILib_clearScreen();
     if(gamemechs->getLoseFlagStatus() == true)
     {
-        MacUILib_printf("\n\n=====GAMEOVER!!=====\n#notoccannibalism\nFINAL SCORE: %d",gamemechs->getScore());
+        MacUILib_printf("\n\n=====GAMEOVER!=====\n=====YOU LOST===== \n\n#notoccannibalism\nFINAL SCORE: %d",gamemechs->getScore());
     }
 
 

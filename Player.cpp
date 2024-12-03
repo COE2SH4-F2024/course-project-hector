@@ -120,17 +120,12 @@ void Player::movePlayer()
         }
         else if(current.symbol == '~')  // Special Character #2 
         {
-            for(int m = 0; m<50; m++)   // Special Effect #2 (increase score +50)
+            for(int m = 0; m<20; m++)   // Special Effect #2 (increase score +20)
             {
                 mainGameMechsRef->incrementScore();
             }
             playerPosList->insertHead(objPos(x, y, '*'));
-            for(int i = 0; i < 10; i++)     // Special Effect #2 (increase snake +10)
-            {
-                // Add new segments to the tail, duplicating the last position
-                objPos tailSegment = playerPosList->getTailElement(); // Get current tail position
-                playerPosList->insertTail(objPos(tailSegment.pos->x, tailSegment.pos->y, '*'));
-            }
+            increasePlayerLength();
             mainFoodRef->generateFood(playerPosList);   // Generate new food 
         }
         else
@@ -201,10 +196,12 @@ bool Player::checkSelfCollision()
     return selfCollision;
 }
 
-void Player::increasePlayerLength(int xPos, int yPos) // updates player length if obtained special food
+void Player::increasePlayerLength() // updates player length if obtained special food
 {
-    for(int i = 0; i<10; i++)
+    objPos tailSegment = playerPosList->getTailElement();
+
+    for (int i = 0; i < 2; i++) // Add 3 segments
     {
-        playerPosList->insertTail(objPos(xPos,yPos,'*'));
+        playerPosList->insertTail(objPos(tailSegment.pos->x, tailSegment.pos->y, '*'));
     }
 }
